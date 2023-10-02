@@ -1,0 +1,29 @@
+#root {
+  height: 100vh;
+}
+
+.container {
+  height: 100%;
+}
+
+.row-container {
+  height: 100%;
+}
+
+.calculator {
+  border: 1px solid white;
+}
+
+p {
+  color: white;
+}
+
+.btn-square-md {
+  width: 100px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  height: 100px !important;
+  text-align: center;
+  padding: 0px;
+  font-size:3em;
+}
