@@ -8,53 +8,124 @@ const App = () => {
 
   const addNumber = (btn) => {
     if (result === '') {
-      if (btn === '.') {
-        setResult('0.')
+      if (btn === '0') {
+        setResult('');
       } else {
         setResult(btn);
       }
     } else if ( operation !== '') {
-      setResult2(btn);
+      if (result2 === '') {
+        if (btn === '0') {
+          setResult2('');
+        } else {
+          setResult2(btn);
+        }
+      } else {
+        setResult2(result2+btn);
+      }
     } else {
-      setResult(result+btn);
+        setResult(result+btn);
     }
   };
 
+  // useEffect(() => {
+  //   calculate();
+  // },[result2]);
+
   const AC = () => {
+    console.log('AC');
     setResult('');
-    clean();
+    partialClean();
   };
 
   const addOperator = (i) => {
+    if (operation !== '') {
+      if (result2 === '') {
+        setOperation(i);
+      } else {
+        calculate();
+      }
+    }
     setOperation(i);
   };
 
   const calculate = () => {
+    console.log('Im enter on calculate');
+    console.log(result);
+    console.log(operation);
+    console.log(result2);
     switch (operation) {
       case '+':
-        setResult(parseInt(result)+parseInt(result2));
-        clean();
+        setResult(parseFloat(result)+parseFloat(result2));
+        partialClean();
         break;
       case '-':
-        setResult(parseInt(result)-parseInt(result2));
-        clean();
+        setResult(parseFloat(result)-parseFloat(result2));
+        partialClean();
         break;
       case 'x':
-        setResult(parseInt(result)*parseInt(result2));
-        clean();
+        setResult(parseFloat(result)*parseFloat(result2));
+        partialClean();
         break;
       case '/':
-        setResult(parseInt(result)/parseInt(result2));
-        clean();
+        setResult(parseFloat(result)/parseFloat(result2));
+        partialClean();
         break;
       default:
-        console.log('you shouldnt see this!');
     }
   }
 
-  const clean = () => {
+  const partialClean = () => {
     setResult2('');
     setOperation('');
+  };
+
+  const addPoint = () => {
+    if (operation === '') {
+      if (result === '' || result === '0') {
+        setResult('0.');
+      } else if (!result.includes('.')) {
+        setResult(result+'.');
+      }
+    } else {
+      if (result2 === '') {
+        setResult2('0.');
+      } else if (!result2.includes('.')) {
+        setResult2(result2+'.');
+      } 
+    }
+  };
+
+  const addMinus = () => {
+    if (result === '') {
+      setResult('-');
+    } else if (operation === '') {
+      setOperation('-');
+    } else if (result2 === '') {
+      setResult2('-');
+    } else {
+      calculate();
+      setOperation('-');
+    }
+  };
+
+  const addPlus = () => {
+    if (result === '') {
+      setResult('+');
+    } else if (operation === '') {
+      setOperation('+');
+    } else if (result2 === '') {
+      setResult2('+');
+    } else if (result === '-') {
+      setResult('');
+      setOperation('+');
+    } else if (result2 === '-') {
+      setResult2('');
+      setOperation('+');
+    } else {
+      calculate();
+      setOperation('+');
+    }
   };
 
   return (
@@ -64,7 +135,8 @@ const App = () => {
           <div className='row'>
             <div className='col-12 px-0'>
             <p className='text-end display my-0'>{result === '' ? '0' : result}{operation}{result2}</p>
-              <p className='text-end display my-0' id='display'>{result === '' ? '0' : (operation === '' ? result : (result2 === '' ? '0': result2))}</p>
+              {/* <p className='text-end display my-0' id='display'>{result === '' ? '0' : (operation === '' ? result : (result2 === '' ? '0': result2))}</p> */}
+              <p className='text-end display my-0' id='display'>{result === '' ? '0' : result }</p>
             </div>
           </div>
           <div className='row mb-4'>
@@ -78,7 +150,7 @@ const App = () => {
               <button type="button" className="btn btn-primary btn-square-md" id='three' onClick={() => {addNumber('3')}}>3</button>
             </div>
             <div className='col-3'>
-              <button type="button" className="btn btn-primary btn-square-md" id='add' onClick={() => {addOperator('+')}}>+</button>
+              <button type="button" className="btn btn-primary btn-square-md" id='add' onClick={addPlus}>+</button>
             </div>
           </div>
           <div className='row mb-4'>
@@ -89,10 +161,10 @@ const App = () => {
               <button type="button" className="btn btn-primary btn-square-md" id='five' onClick={() => {addNumber('5')}}>5</button>
             </div>
             <div className='col-3'>
-              <button type="button" className="btn btn-primary btn-square-md" id='siz' onClick={() => {addNumber('6')}}>6</button>
+              <button type="button" className="btn btn-primary btn-square-md" id='six' onClick={() => {addNumber('6')}}>6</button>
             </div>
             <div className='col-3'>
-              <button type="button" className="btn btn-primary btn-square-md" id='substract' onClick={() => {addOperator('-')}}>-</button>
+              <button type="button" className="btn btn-primary btn-square-md" id='subtract' onClick={addMinus}>-</button>
             </div>
           </div>
           <div className='row mb-4'>
@@ -117,7 +189,7 @@ const App = () => {
               <button type="button" className="btn btn-primary btn-square-md" id='zero' onClick={() => {addNumber('0')}}>0</button>
             </div>
             <div className='col-3'>
-              <button type="button" className="btn btn-primary btn-square-md" id="decimal" onClick={() => {addNumber('.')}}>.</button>
+              <button type="button" className="btn btn-primary btn-square-md" id="decimal" onClick={addPoint}>.</button>
             </div>
             <div className='col-3'>
               <button type="button" className="btn btn-primary btn-square-md" id='divide' onClick={() => {addOperator('/')}}>/</button>
