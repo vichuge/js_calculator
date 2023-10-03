@@ -33,7 +33,6 @@ const App = () => {
   // },[result2]);
 
   const AC = () => {
-    console.log('AC');
     setResult('');
     partialClean();
   };
@@ -50,10 +49,6 @@ const App = () => {
   };
 
   const calculate = () => {
-    console.log('Im enter on calculate');
-    console.log(result);
-    console.log(operation);
-    console.log(result2);
     switch (operation) {
       case '+':
         setResult(parseFloat(result)+parseFloat(result2));
